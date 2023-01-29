@@ -23,13 +23,14 @@ echo '192.168.33.11 worker1' >> /etc/hosts
 # copying hadoop and yarn configuration files
 echo "copying configuration files"
 dos2unix /vagrant/config-files/core-site.xml
-dos2unix /vagrant/config-files/hdfs-site-2.xml
+dos2unix /vagrant/config-files/hdfs-site-1.xml
 dos2unix /vagrant/config-files/yarn-site-2.xml
+dos2unix /vagrant/config-files/mapred-site.xml
 dos2unix /vagrant/config-files/workers
 cat /vagrant/config-files/core-site.xml > /usr/local/hadoop-3.3.4/etc/hadoop/core-site.xml
 cat /vagrant/config-files/hdfs-site-1.xml > /usr/local/hadoop-3.3.4/etc/hadoop/hdfs-site.xml
-cat /vagrant/config-files/yarn-site-1.xml > /usr/local/hadoop-3.3.4/etc/hadoop/yarn-site.xml
+cat /vagrant/config-files/yarn-site-2.xml > /usr/local/hadoop-3.3.4/etc/hadoop/yarn-site.xml
 cat /vagrant/config-files/workers > /usr/local/hadoop-3.3.4/etc/hadoop/workers
 cat /vagrant/config-files/workers > /usr/local/hadoop-3.3.4/etc/hadoop/workers
-
+cat /vagrant/config-files/mapred-site.xml > /usr/local/hadoop-3.3.4/etc/hadoop/mapred-site.xml
 
