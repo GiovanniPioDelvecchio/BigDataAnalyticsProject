@@ -53,3 +53,52 @@ fi
 if ! grep -q 'export YARN_NODEMANAGER_USER=ubuntu' /usr/local/hadoop-3.3.4/etc/hadoop/hadoop-env.sh; then
 	echo 'export YARN_NODEMANAGER_USER=ubuntu' >> /usr/local/hadoop-3.3.4/etc/hadoop/hadoop-env.sh
 fi
+
+
+# Add spark path to .profile file in ubuntu:
+sudo -i -u ubuntu bash << EOF
+if ! grep -q 'PATH=/usr/local/spark-3.3.1-bin-hadoop3/bin:\$PATH' /home/ubuntu/.profile; then
+	sudo sed -i '9i PATH=/usr/local/spark-3.3.1-bin-hadoop3/bin:\$PATH' /home/ubuntu/.profile
+	echo "added spark path in /home/ubuntu/.profile file"
+fi
+if ! grep -q 'export HADOOP_CONF_DIR=/usr/local/hadoop-3.3.4/etc/hadoop/' /home/ubuntu/.profile; then
+	sudo sed -i '10i export HADOOP_CONF_DIR=/usr/local/hadoop-3.3.4/etc/hadoop/' /home/ubuntu/.profile
+	echo "added HADOOP_CONF_DIR in /home/ubuntu/.profile file"
+fi
+if ! grep -q 'export SPARK_HOME=/usr/local/spark-3.3.1-bin-hadoop3/' /home/ubuntu/.profile; then
+	sudo sed -i '11i export SPARK_HOME=/usr/local/spark-3.3.1-bin-hadoop3/' /home/ubuntu/.profile
+	echo "added SPARK_HOME in /home/ubuntu/.profile file"
+fi
+if ! grep -q 'export LD_LIBRARY_PATH=/usr/local/hadoop-3.3.4/lib/native:\$LD_LIBRARY_PATH' /home/ubuntu/.profile; then
+	sudo sed -i '12i export LD_LIBRARY_PATH=/usr/local/hadoop-3.3.4/lib/native:\$LD_LIBRARY_PATH' /home/ubuntu/.profile
+	echo "added LD_LIBRARY_PATH in /home/ubuntu/.profile file"
+fi
+EOF
+
+mv /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf.template /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+
+if ! grep -q 'spark.master    yarn' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '1i spark.master    yarn' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "added spark.master in spark-defaults.conf"
+fi
+
+if ! grep -q 'spark.driver.memory    512m' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '2i spark.driver.memory    512m' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set spark driver memory to 512m in spark-defaults.conf"
+fi
+
+if ! grep -q 'spark.yarn.am.memory    512m' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '3i spark.yarn.am.memory    512m' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set spark yarn am memory to 512m in spark-defaults.conf"
+fi
+
+if ! grep -q 'spark.executor.memory          512m' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '4i spark.executor.memory          512m' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set executor memory to 512m in spark-defaults.conf"
+fi
+
+# to run a spark job, log in ubuntu with sudo su -l ubuntu, navigate to $SPARK_HOME and submit the job from
+# there with the "submit" command, i.e. spark-submit --deploy-mode cluster /vagrant/spark-test-scripts/pi.py
+
+
+
