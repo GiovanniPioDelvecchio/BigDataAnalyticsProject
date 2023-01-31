@@ -100,5 +100,11 @@ fi
 # to run a spark job, log in ubuntu with sudo su -l ubuntu, navigate to $SPARK_HOME and submit the job from
 # there with the "submit" command, i.e. spark-submit --deploy-mode cluster /vagrant/spark-test-scripts/pi.py
 
+# while being logged as ubuntu, cd into "/" and run start-all.sh
+
+# open jupyter notebook with: jupyter notebook --no-browser --ip 0.0.0.0 and pasting the url in the browser
+# after substituting "master" with "192.168.33.10".
+# Now it is possible to run spark on a jupyter notebook (install findspark using "!pip install findspark",
+# then import it using "import findspark" and then call "findspark.init()")
 
 
