@@ -97,6 +97,18 @@ if ! grep -q 'spark.executor.memory          512m' /usr/local/spark-3.3.1-bin-ha
 	echo "set executor memory to 512m in spark-defaults.conf"
 fi
 
+# ./hdfs dfs -mkdir hdfs://master:9000/jar-archives
+
+# /usr/local/spark-3.3.1-bin-hadoop3/spark-libs.jar
+
+# ./hdfs dfs -put /usr/local/spark-3.3.1-bin-hadoop3/spark-libs.jar /jar-archives
+
+if ! grep -q 'spark.yarn.jars hdfs://master:9000/jar-archives/spark-libs.jar' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i 'spark.yarn.jars hdfs://master:9000/jar-archives/spark-libs.jar' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set jar location in hdfs"
+fi
+
+
 # to run a spark job, log in ubuntu with sudo su -l ubuntu, navigate to $SPARK_HOME and submit the job from
 # there with the "submit" command, i.e. spark-submit --deploy-mode cluster /vagrant/spark-test-scripts/pi.py
 
