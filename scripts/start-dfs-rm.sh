@@ -23,7 +23,19 @@ EOF
 echo "creating a brand new hdfs"
 sudo /usr/local/hadoop-3.3.4/bin/hdfs namenode -format
 
+echo "creating jar archives"
+sudo -i -u ubuntu bash << EOF
+sudo jar cv0f spark-libs.jar -C $SPARK_HOME/jars .
+EOF
+
 echo "starting dfs and yarn"
 sudo /usr/local/hadoop-3.3.4/sbin/start-dfs.sh
 sudo /usr/local/hadoop-3.3.4/sbin/start-yarn.sh
+
+echo "creating distributed folder for the jar archives"
+/usr/local/hadoop-3.3.4/bin/hdfs dfs -mkdir hdfs://master:9000/jar-archives
+echo "moving jar archives in the distributed folder"
+/usr/local/hadoop-3.3.4/bin/hdfs dfs -put /usr/local/spark-3.3.1-bin-hadoop3/spark-libs.jar /jar-archives
+
+
 
