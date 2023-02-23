@@ -119,4 +119,5 @@ fi
 # Now it is possible to run spark on a jupyter notebook (install findspark using "!pip install findspark",
 # then import it using "import findspark" and then call "findspark.init()")
 
-
+# in order to disply the history server it is necessary to edit the spark-default.conf file as shown here:
+# https://sparkbyexamples.com/spark/spark-setup-on-hadoop-yarn/
