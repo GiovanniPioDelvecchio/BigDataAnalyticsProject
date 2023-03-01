@@ -1,3 +1,8 @@
+# this file and the other scripts in the /scripts/ folder
+# could be in windows format, because of this it could be
+# required to install manually dos2unix and convert the
+# scripts
+
 # downloading dos2unix to convert text files from dos format (with \r\n as newline char)
 # to unix format.
 sudo apt install dos2unix
@@ -11,6 +16,12 @@ EOF
 echo "deleting the line containing master in the hosts file"
 sed -i '/master/d' /etc/hosts
 sed -i '/worker1/d' /etc/hosts
+
+echo "deleting the line containing the localhost ip"
+echo "since it was the source of some problems when creating"
+echo "the cluster, it will be added again before launching "
+echo "the spark history server"
+sed -i 'localhost/d' /etc/hosts
 
 # add the line where we create the alias 'master' for the ip of the master
 echo "adding the line about the chosen master ip in the hosts file"
@@ -97,15 +108,34 @@ if ! grep -q 'spark.executor.memory          512m' /usr/local/spark-3.3.1-bin-ha
 	echo "set executor memory to 512m in spark-defaults.conf"
 fi
 
-# ./hdfs dfs -mkdir hdfs://master:9000/jar-archives
+if ! grep -q 'spark.eventLog.enabled           true' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '5i spark.eventLog.enabled           true' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set eventLog enabled to true in spark-defaults.conf"
+fi
 
-# /usr/local/spark-3.3.1-bin-hadoop3/spark-libs.jar
+if ! grep -q 'spark.eventLog.dir               hdfs://master:9000/spark-logs' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '6i spark.eventLog.dir               hdfs://master:9000/spark-logs' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set eventLog directory to spark-logs in hdfs in spark-defaults.conf"
+fi
 
-# ./hdfs dfs -put /usr/local/spark-3.3.1-bin-hadoop3/spark-libs.jar /jar-archives
+if ! grep -q 'spark.history.provider org.apache.spark.deploy.history.FsHistoryProvider' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '7i spark.history.provider org.apache.spark.deploy.history.FsHistoryProvider' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set spark history provider in spark-defaults.conf"
+fi
 
-if ! grep -q 'spark.yarn.jars hdfs://master:9000/jar-archives/spark-libs.jar' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
-	sudo sed -i 'spark.yarn.jars hdfs://master:9000/jar-archives/spark-libs.jar' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
-	echo "set jar location in hdfs"
+if ! grep -q 'spark.history.fs.logDirectory hdfs://master:9000/spark-logs' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '8i spark.history.fs.logDirectory hdfs://master:9000/spark-logs' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set log directory to spark-logs in hdfs in spark-defaults.conf"
+fi
+
+if ! grep -q 'spark.history.fs.update.interval 10s' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '9i spark.history.fs.update.interval 10s' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set update interval to 10s in spark-defaults.conf"
+fi
+
+if ! grep -q 'spark.history.ui.port 18080' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '10i spark.history.ui.port 18080' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+	echo "set history ui port to 18080 in spark-defaults.conf"
 fi
 
 

@@ -1,11 +1,3 @@
-# TODO: add master.sh and worker.sh in the provision pipeline
-# execute this after master.sh and worker.sh have been executed
-# on the respective nodes
-
-# the execution of this script must be performed on the master
-# it is a quick way to start Hadoop and Yarn after formatting
-# the distributed file system
-
 # quick check if the worker is reachable
 sudo -i -u ubuntu bash << EOF
 ssh worker1
@@ -23,19 +15,17 @@ EOF
 echo "creating a brand new hdfs"
 sudo /usr/local/hadoop-3.3.4/bin/hdfs namenode -format
 
-echo "creating jar archives"
-sudo -i -u ubuntu bash << EOF
-sudo jar cv0f spark-libs.jar -C $SPARK_HOME/jars .
-EOF
-
 echo "starting dfs and yarn"
 sudo /usr/local/hadoop-3.3.4/sbin/start-dfs.sh
 sudo /usr/local/hadoop-3.3.4/sbin/start-yarn.sh
 
-echo "creating distributed folder for the jar archives"
-/usr/local/hadoop-3.3.4/bin/hdfs dfs -mkdir hdfs://master:9000/jar-archives
-echo "moving jar archives in the distributed folder"
-/usr/local/hadoop-3.3.4/bin/hdfs dfs -put /usr/local/spark-3.3.1-bin-hadoop3/spark-libs.jar /jar-archives
+echo "creating log folder for spark"
+sudo /usr/local/hadoop-3.3.4/bin/hdfs dfs -mkdir -p hdfs://master:9000/spark-logs
 
+if ! grep -q 'localhost	127.0.0.1' /etc/hosts; then
+	sudo sed -i '1i localhost	127.0.0.1' /etc/hosts
+	echo 'added localhost line in /etc/hosts'
+fi
 
+sudo /usr/local/spark-3.3.1-bin-hadoop3/sbin/start-history-server.sh
 

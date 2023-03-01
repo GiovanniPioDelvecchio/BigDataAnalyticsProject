@@ -22,13 +22,14 @@ pip3 install matplotlib pandas seaborn
 pip3 install jupyter
 # uncomment and modify to remove a previously installed Spark version
 # rm -rf /usr/local/spark-3.0.0-preview2-bin-hadoop2.7
-# remove any previously downloaded file
-#rm -rf spark-3.*-bin-hadoop*.tgz*
+
+# since the download was broken we do not remove the 
+# compressed folder from the root directory
+
 if ! [ -d /usr/local/spark-3.3.1-bin-hadoop3 ]; then
 # current link as of 2022-11-28:
   wget https://dlcdn.apache.org/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz
   tar -C /usr/local -xvzf spark-3.3.1-bin-hadoop3.tgz
-  #rm spark-3.3.1-bin-hadoop3.tgz
 fi
 
 if ! [ -d /usr/local/hadoop-3.3.4 ]; then
