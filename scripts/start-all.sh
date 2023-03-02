@@ -6,4 +6,6 @@ if ! grep -q 'localhost	127.0.0.1' /etc/hosts; then
 	echo 'added localhost line in /etc/hosts'
 fi
 
-sudo /usr/local/spark-3.3.1-bin-hadoop3/sbin/start-history-server.sh
+# log into ubuntu with sudo su -l ubuntu and run these two commands:
+# sudo /usr/local/spark-3.3.1-bin-hadoop3/sbin/start-history-server.sh
+# jupyter notebook --no-browser --ip 0.0.0.0

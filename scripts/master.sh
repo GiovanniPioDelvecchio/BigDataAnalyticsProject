@@ -108,8 +108,14 @@ if ! grep -q 'spark.executor.memory          512m' /usr/local/spark-3.3.1-bin-ha
 	echo "set executor memory to 512m in spark-defaults.conf"
 fi
 
-if ! grep -q 'spark.eventLog.enabled           true' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
-	sudo sed -i '5i spark.eventLog.enabled           true' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+# it could be the case that spark-defaults.conf already contains a comment
+# with the line spark.eventLog.enabled true, in that case check
+# if the uncommented line has been added, if not just uncomment it
+# in order to get the logs
+sed -i 'spark.eventLog.enabled/d' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
+
+if ! grep -q 'spark.eventLog.enabled true' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf; then
+	sudo sed -i '5i spark.eventLog.enabled true' /usr/local/spark-3.3.1-bin-hadoop3/conf/spark-defaults.conf
 	echo "set eventLog enabled to true in spark-defaults.conf"
 fi
 
