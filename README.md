@@ -132,6 +132,7 @@ Run the following commands in cmd or PowerShell after satisfying the above menti
 check if the nodes are connected by pasting "192.168.33.10:9870" in a browser.
 Start the Spark History Server with:
 ```
+sudo su -l ubuntu
 sudo /usr/local/spark-3.3.1-bin-hadoop3/sbin/start-history-server.sh
 ```
 
