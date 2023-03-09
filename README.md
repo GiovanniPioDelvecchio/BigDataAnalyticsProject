@@ -26,14 +26,15 @@ Requirements:
 Structure of the repository:
 ```
 C:.
-|   bootstrap.sh  
-|   CreditCardClients.ipynb 
-|   default of credit card clients.xls 
-|   eventLogs-fullnotebook.zip 
-|   LinearDiscriminantAnalysis.ipynb 
-|   README.md 
-|   spark-3.3.1-bin-hadoop3.tgz 
-|   Vagrantfile 
+|   bootstrap.sh                        # bootstrap file needed for provisioning, it has been modified since the download of Spark-3.3.1 was broken
+|   CreditCardClients.ipynb             # Main notebook containing the analysis for DM method
+|   default of credit card clients.xls  # dataset file
+|   eventLogs-fullnotebook.zip          # logs related to the execution of the main notebook
+|   eventLogs-LDA.zip                   # logs related to the execution of the notebook related to the LDA analysis
+|   LinearDiscriminantAnalysis.ipynb    # more in depth analysis of the LDA DM method
+|   README.md                           
+|   spark-3.3.1-bin-hadoop3.tgz         # file that has to be downloaded and added to the folder in order to correctly set up the environment
+|   Vagrantfile                         # Vagrant file containing the specifications of each virtual machine
 |
 +---.ipynb_checkpoints 
 |       CreditCardClients-checkpoint.ipynb 
