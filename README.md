@@ -4,12 +4,12 @@ Developed by Giovanni Pio Delvecchio.
 
 The repository contains all the files needed to set up a fully distributed local cluster with Hadoop, Yarn and Spark. 
 
-The project consists in a task of binary classification over a dataset of credit card clients, essentially replicating the
+The project consists in a task of binary classification over a dataset containing data about credit card clients, essentially replicating the
 results presented in the paper "The comparisons of data mining techniques for the predictive accuracy of probability of default of credit card clients" 
 by I-Cheng Yeh and Che-hui Lien, in a fully distributed setting created with with Hadoop, Yarn and PySpark.
 The results related to all the methods can be found in the notebook CreditCardClients.ipynb, while the results related to the
 Linear Discriminant Analysis classifier are presentend more in detail in the corresponding notebook (LinearDiscriminantAnalysis.ipynb).
-The methods presented in here and in the reference paper are:
+The methods presented here and in the reference paper are:
 - Multi-layer Perceptron
 - Logistic Regression
 - Decision Tree
@@ -21,7 +21,7 @@ The methods presented in here and in the reference paper are:
 Requirements: 
 - Vagrant 2.3.4       
 - VirtualBox 7.0.6
-- Spark 3.3.1 (download spark-3.3.1-bin-hadoop3.tgz https://archive.apache.org/dist/spark/spark-3.3.1/ and place it in the root directory)
+- Spark 3.3.1 (download spark-3.3.1-bin-hadoop3.tgz from https://archive.apache.org/dist/spark/spark-3.3.1/ and place it in the root directory)
 
 Structure of the repository:
 ```
@@ -54,13 +54,13 @@ C:.
 |       hdfs-site-2.xml
 |       mapred-site.xml
 |       workers
-|       yarn-site-1.xml # this is actually used, the alternative yarn-site has been created 
+|       yarn-site-1.xml 
+|       yarn-site-2.xml # this is actually used, the alternative yarn-site has been created 
 |                       # in order to test the configuration on the slides
-|       yarn-site-2.xml
 |
 +---scripts
 |       master.sh       # script needed in order to set up the config files of the master node
-|       remove-hdfs.sh  # script needed in order to delete the folder "hdfs" of a worker after 
+|       remove-hdfs.sh  # script needed in order to delete the folder "hdfs" of a worker before 
 |                       # formatting the hdfs with start-dfs-rm.sh
 |       start-all.sh    # script needed to start Hadoop, Yarn and the Spark history server.
 |       start-dfs-rm.sh # script needed to check if the worker node is connected and format the HDFS, 
@@ -91,7 +91,7 @@ C:.
 |       id_rsa.pub
 |
 \---train_partitions    # folder containing the partitioned version of the dataset, 
-                        #  which are needed in the LinearDiscriminantAnalysis.ipynb notebook
+                        # which are needed in the LinearDiscriminantAnalysis.ipynb notebook
         partition_0_schema.json
         partition_1_schema.json
         partition_2_schema.json
