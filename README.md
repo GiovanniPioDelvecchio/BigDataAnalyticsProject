@@ -1,5 +1,5 @@
-# BigDataAnalyticsProject
-Repository for the Big Data Analytics project.
+# Default prediction in a distributed setting
+Repository for the project for the "Big Data Analytics" exam.
 Developed by Giovanni Pio Delvecchio.
 
 The repository contains all the files needed to set up a fully distributed local cluster with Hadoop, Yarn and Spark. 
